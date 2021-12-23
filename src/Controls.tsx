@@ -9,6 +9,7 @@ import {
     HOST, 
     USERNAME, 
     PASSWORD,
+    PRIVATE_KEY,
     COMMAND
 } from './config';
 
@@ -36,7 +37,7 @@ const Controls = () => {
     const toggle = async (action: string) => {
         const command = `${COMMAND} ${action}`;
 
-        SSH.execute(HOST, USERNAME, PASSWORD, command).then(res => {
+        SSH.execute(HOST, USERNAME, PASSWORD, PRIVATE_KEY, command).then(res => {
 
         }).catch(error => {
             // TODO: Handle error

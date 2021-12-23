@@ -10,6 +10,7 @@ RCT_EXPORT_METHOD(
                   execute:(NSString *)host
                   username:(NSString *)username
                   password:(NSString *)password
+                  privateKey:(NSString *)privateKey
                   command:(NSString *)command
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
@@ -21,9 +22,17 @@ RCT_EXPORT_METHOD(
     return reject(@"connection_error", @"Could not connect ", error);
   }
 
-  // Authenticate using password. 
-  BOOL isAuthenticated = [session authenticateByPassword:password];
-  if (!isAuthenticated) {
+  if (privateKey) {
+    // Authenticate using private key.
+    [session authenticateByInMemoryPublicKey:@"" privateKey:privateKey andPassword:@""];
+  }
+  
+  if (!session.isAuthorized && password) {
+    // Authenticate using password.
+    [session authenticateByPassword:password];
+  }
+  
+  if (!session.isAuthorized) {
     NSError *error = [[NSError alloc] initWithDomain:@"RCTSSH" code:401 userInfo:@{@"error": @"Cannot authenticate"}];
     return reject(@"authentication_error", @"Could not authenticate ", error);
   }
