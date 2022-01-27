@@ -8,6 +8,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(
                   execute:(NSString *)host
+                  port:(NSInteger)port
                   username:(NSString *)username
                   password:(NSString *)password
                   privateKey:(NSString *)privateKey
@@ -16,7 +17,7 @@ RCT_EXPORT_METHOD(
                   reject:(RCTPromiseRejectBlock)reject)
 {
   // Connect to the remote server. 
-  NMSSHSession *session = [NMSSHSession connectToHost:host withUsername:username];
+  NMSSHSession *session = [NMSSHSession connectToHost:host port:port withUsername:username];
   if (!session.isConnected) {
     NSError *error = [[NSError alloc] initWithDomain:@"RCTSSH" code:404 userInfo:@{@"error": @"Cannot connect"}];
     return reject(@"connection_error", @"Could not connect ", error);

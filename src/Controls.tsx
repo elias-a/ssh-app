@@ -6,7 +6,8 @@ import {
 } from 'react-native';
 import SSH from './NativeSSH';
 import { 
-    HOST, 
+    HOST,
+    PORT,
     USERNAME, 
     PASSWORD,
     PRIVATE_KEY,
@@ -37,7 +38,7 @@ const Controls = () => {
     const toggle = async (action: string) => {
         const command = `${COMMAND} ${action}`;
 
-        SSH.execute(HOST, USERNAME, PASSWORD, PRIVATE_KEY, command).then(res => {
+        SSH.execute(HOST, PORT, USERNAME, PASSWORD, PRIVATE_KEY, command).then(res => {
 
         }).catch(error => {
             // TODO: Handle error
